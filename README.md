@@ -21,7 +21,7 @@ $ python scrapy.py -INR -WhatsApp
 ## Code Usage
 - For Sending data to [IFTTT](https://ifttt.com/join) webhooks and running required applets.
 
-'''python
+```python
 ifttt_webhook_url = 'https://maker.ifttt.com/trigger/{}/with/key/oqIPU0KrD2hCrjPNmDnXA9oyrOO3HSHnVzBagrn6ej3'
 
 
@@ -32,10 +32,10 @@ def post_to_ifttt_webhook(event, value1, value2):
         event)  # Inserts our desired event
     # Sends a HTTP POST request to the webhook URL
     requests.post(ifttt_event_url, json=data)
-'''
+```
 
 - Using [Twilio Api](https://www.twilio.com/) to send WhatsApp notification
-'''python
+```python
     print('Sending Message on WhatsApp.....')
     account_sid = 'account_sid_from_twilio'
     auth_token = 'account_toke_twilio'
@@ -47,9 +47,9 @@ def post_to_ifttt_webhook(event, value1, value2):
             to='whatsapp:+91_mobile_no'
         )
     print(message.sid, message.status, message.error_message)
-'''
+```
 - Webscraping [Live Crypto Currency](https://cryptoprices.com/) to get Crypto Prices.
-'''python
+```python
     # Getting Bitcoin Value Web Scrapping
     print("Getting Crypto Rates.....")
     rates = {}
@@ -63,7 +63,7 @@ def post_to_ifttt_webhook(event, value1, value2):
                   ] = round(float(price['data-price'])*convert, 3)
 
     print(rates)
-'''
+```
 
 ## Learnings
 - How to use python requests module.
