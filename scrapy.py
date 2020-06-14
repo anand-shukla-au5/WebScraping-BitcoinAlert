@@ -17,7 +17,7 @@ def post_to_ifttt_webhook(event, value1, value2):
     requests.post(ifttt_event_url, json=data)
 
 
-def cryptoprices(usin):
+def cryptoprices(usin, op_msg):
     convert = 1
 
     # Current USD to INR value
@@ -44,31 +44,36 @@ def cryptoprices(usin):
                   ] = round(float(price['data-price'])*convert, 3)
 
         print(rates)
-        print("Twitter Notifications.....")
-        post_to_ifttt_webhook('bitcoin_alert', usin, rates)
-        # print('Sending Message on WhatsApp.....')
-        # # msg_body
-        # account_sid = 'ACd2650511cba3c67f6236e274ed6aba98'
-        # auth_token = '5eab77c3d85b6ef0a2c4b3d3b88dc389'
-        # client = Client(account_sid, auth_token)
-        # message = client.messages.create(
-        #     body='Your bitcoin and Etherrum value in {0} are {1} and {2}'.format(
-        #         usin, rates['bitcoin'], rates['ethereum']),
-        #     from_='whatsapp:+14155238886',
-        #     to='whatsapp:+917018497957'
-        # )
-        # print(message.sid, message.status, message.error_message)
+        if op_msg == '-Twitter':
+            print("Twitter Notifications.....")
+            post_to_ifttt_webhook('bitcoin_alert', usin, rates)
+        if op_msg == '-WhatsApp':
+            print('Sending Message on WhatsApp.....')
+            account_sid = 'ACd2650511cba3c67f6236e274ed6aba98'
+            auth_token = '5eab77c3d85b6ef0a2c4b3d3b88dc389'
+            client = Client(account_sid, auth_token)
+            message = client.messages.create(
+                body='Your bitcoin and Etherrum value in {0} are {1} and {2}'.format(
+                    usin, rates['bitcoin'], rates['ethereum']),
+                from_='whatsapp:+14155238886',
+                to='whatsapp:+917353125589'
+            )
+            print(message.sid, message.status, message.error_message)
+        with open('crypto.json', 'w') as json_file:
+            json.dump(rates, json_file)
+    return print("Message Sent......")
 
-    with open('crypto.json', 'w') as json_file:
-        json.dump(rates, json_file)
 
-
-if len(sys.argv) == 2:
-    print(sys.argv[0], sys.argv[1])
+if len(sys.argv) == 3:
+    print(sys.argv[0], sys.argv[1], sys.argv[2])
     if sys.argv[1] == '-USD' or sys.argv[1] == '-INR':
-        cryptoprices(sys.argv[1])
+        if sys.argv[2] == '-WhatsApp' or sys.argv[2] == '-Twitter':
+            cryptoprices(sys.argv[1], sys.argv[2])
+        else:
+            print("Second Argument should be -WhatsApp or -Twitter")
+            exit()
     else:
-        print("Command Line argumnet should be -INR or -USD in Capital")
+        print("Command Line first argumnet should be -INR or -USD in Capital and second argument as -WhatsApp or -Twitter")
         exit()
 else:
-    print("Pass Command line Argumnets as -USD or -INR")
+    print("Pass Command line Argumnets as -USD or -INR and -WhatsApp or -Twitter")
