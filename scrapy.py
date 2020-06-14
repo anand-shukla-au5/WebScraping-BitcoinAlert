@@ -5,6 +5,17 @@ import progress
 from twilio.rest import Client
 from bs4 import BeautifulSoup
 
+ifttt_webhook_url = 'https://maker.ifttt.com/trigger/{}/with/key/oqIPU0KrD2hCrjPNmDnXA9oyrOO3HSHnVzBagrn6ej3'
+
+
+def post_to_ifttt_webhook(event, value1, value2):
+    # The payload that will be sent to IFTTT service
+    data = {'value1': value1, 'value2': value2}
+    ifttt_event_url = ifttt_webhook_url.format(
+        event)  # Inserts our desired event
+    # Sends a HTTP POST request to the webhook URL
+    requests.post(ifttt_event_url, json=data)
+
 
 def cryptoprices(usin):
     convert = 1
@@ -31,18 +42,22 @@ def cryptoprices(usin):
         for price in ba:
             rates[str(price['data-live-price'])
                   ] = round(float(price['data-price'])*convert, 3)
-        print('Sending Message.....')
-        # msg_body
-        account_sid = 'ACd2650511cba3c67f6236e274ed6aba98'
-        auth_token = '5eab77c3d85b6ef0a2c4b3d3b88dc389'
-        client = Client(account_sid, auth_token)
-        message = client.messages.create(
-            body='Your bitcoin and Etherrum value in {0} are {1} and {2}'.format(
-                usin, rates['bitcoin'], rates['ethereum']),
-            from_='whatsapp:+14155238886',
-            to='whatsapp:+917018497957'
-        )
-        print(message.sid, message.status, message.error_message)
+
+        print(rates)
+        print("Twitter Notifications.....")
+        post_to_ifttt_webhook('bitcoin_alert', usin, rates)
+        # print('Sending Message on WhatsApp.....')
+        # # msg_body
+        # account_sid = 'ACd2650511cba3c67f6236e274ed6aba98'
+        # auth_token = '5eab77c3d85b6ef0a2c4b3d3b88dc389'
+        # client = Client(account_sid, auth_token)
+        # message = client.messages.create(
+        #     body='Your bitcoin and Etherrum value in {0} are {1} and {2}'.format(
+        #         usin, rates['bitcoin'], rates['ethereum']),
+        #     from_='whatsapp:+14155238886',
+        #     to='whatsapp:+917018497957'
+        # )
+        # print(message.sid, message.status, message.error_message)
 
     with open('crypto.json', 'w') as json_file:
         json.dump(rates, json_file)
