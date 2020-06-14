@@ -6,6 +6,7 @@ Bitcoin Alert : Sends you Bitcon Alert on WhatsApp or Twitter by WebScrapping (h
 - [Python](https://www.python.org/)
 - [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 - [Twilio](https://www.twilio.com/)
+- [IFTTT](https://ifttt.com/join)
 
 ## How to Run
 
