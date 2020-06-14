@@ -71,6 +71,3 @@ def post_to_ifttt_webhook(event, value1, value2):
 - Webscrapping a website and getting data you want.
 - Creating a python program with various different modules.
 - Using command line parameters.
-
-## Author
-Anand Shukla
