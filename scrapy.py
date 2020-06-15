@@ -1,7 +1,6 @@
 import sys
 import requests
 import json
-import progress
 from twilio.rest import Client
 from bs4 import BeautifulSoup
 
@@ -50,7 +49,7 @@ def cryptoprices(usin, op_msg):
         if op_msg == '-WhatsApp':
             print('Sending Message on WhatsApp.....')
             account_sid = 'ACd2650511cba3c67f6236e274ed6aba98'
-            auth_token = '5eab77c3d85b6ef0a2c4b3d3b88dc389'
+            auth_token = '82530ea5158ab36a7844381f30100173'
             client = Client(account_sid, auth_token)
             message = client.messages.create(
                 body='Your bitcoin and Etherrum value in {0} are {1} and {2}'.format(
